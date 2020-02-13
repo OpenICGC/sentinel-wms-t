@@ -39,7 +39,7 @@ export default function createMap() {
 
 	map.addControl(timeDimensionControl);
 
-	var icgcSentinelWms = "http://geoserveis.icgc.cat/icgc_sentinel2/wms/service?";
+	var icgcSentinelWms = "https://geoserveis.icgc.cat/icgc_sentinel2/wms/service?";
 	var icgcSentinel = L.tileLayer.wms(icgcSentinelWms, {
 		layers: 'sen2rgb',
 		version: '1.3.0',
