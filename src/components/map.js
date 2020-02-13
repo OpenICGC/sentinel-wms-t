@@ -1,47 +1,69 @@
-import mapboxgl from "mapbox-gl";
-import StylesControl from "mapbox-gl-controls/lib/styles";
-import CompassControl from 'mapbox-gl-controls/lib/compass';
-import ZoomControl from 'mapbox-gl-controls/lib/zoom';
-import "mapbox-gl/dist/mapbox-gl.css";
-import "mapbox-gl-controls/theme.css";
+// Import CSS from Leaflet and plugins.
+import "leaflet/dist/leaflet.css";
+import "leaflet-timedimension/dist/leaflet.timedimension.control.css";
+
+import "leaflet";
+import "leaflet-timedimension";
+import "leaflet-hash";
+import dateFormat from "dateformat";
 
 export default function createMap() {
-	const map = new mapboxgl.Map({
-		container: "map",
-		minZoom: 2,
-		maxZoom: 18,
-		hash: true,
-		style: "https://geoserveis.icgc.cat/contextmaps/icgc.json",
-		center: [1.88979, 41.69589],
-		zoom: 13.61,
-		attributionControl: false,
-		preserveDrawingBuffer: true
+	const map = new L.Map("map", {
+		zoom: 10,
+		fullscreenControl: true,
+		timeDimension: true,
+		timeDimensionOptions: {
+			period: "P1M",
+		},
+		center: [41.705, 1.588],
 	});
 	
-	//map.addControl(new mapboxgl.NavigationControl());
+	L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png', {
+		attribution: '&copy; <a href="http://www.esri.com">ESRI</a>'
+	}).addTo(map);
 
-	map.addControl(new ZoomControl(), 'top-right');
-	map.addControl(new CompassControl(), 'top-right');
+	var hash = new L.Hash(map);
 
-	map.addControl(new mapboxgl.AttributionControl({
-		compact: true
-	}));
+	L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
+		_getDisplayDateFormat: function(date){
+			return dateFormat(date, "yyyy-mm");
+		}
+	});
 
-	map.addControl(new StylesControl({
-		styles: [
-		  {
-			label: 'Orto',
-			styleName: 'Mapbox Streets',
-			styleUrl: 'https://tilemaps.icgc.cat/tileserver/styles/orto-inun-rc.json',
-		  }, {
-			label: 'Topo',
-			styleName: 'totpo',
-			styleUrl: 'https://tilemaps.icgc.cat/tileserver/styles/topo-inun-rc.json',
-		  },
-		],
-		onChange: (style) => console.log(style),
-		// map.setStyle(style.styleUrl);
-	  }), 'top-right');
+	var timeDimensionControl = new L.Control.TimeDimensionCustom({
+		playerOptions: {
+			buffer: 1,
+			minBufferReady: -1
+		}
+	});
+
+	map.addControl(timeDimensionControl);
+
+	var icgcSentinelWms = "http://geoserveis.icgc.cat/icgc_sentinel2/wms/service?";
+	var icgcSentinel = L.tileLayer.wms(icgcSentinelWms, {
+		layers: 'sen2rgb',
+		version: '1.3.0',
+		format: 'image/png',
+		transparent: true,
+		attribution: 'ICGC'
+	});
+
+	L.TimeDimension.Layer.WMSCustom = L.TimeDimension.Layer.WMS.extend({
+		_createLayerForTime:function(time){
+			var wmsParams = this._baseLayer.options;
+			wmsParams.time = dateFormat(new Date(time), "yyyy-mm");
+			return new this._baseLayer.constructor(this._baseLayer.getURL(), wmsParams);
+		},
+	});
+
+	// Create and add a TimeDimension Layer to the map
+	var testTimeLayer = new L.TimeDimension.Layer.WMSCustom(icgcSentinel, {
+		updateTimeDimension: true,
+		requestTimeFromCapabilities: true,
+		setDefaultTime: true,
+		period: "P1M",
+	});
+	testTimeLayer.addTo(map);
 
 	return map;
 }

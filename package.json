@@ -12,12 +12,19 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "cssnano": "^4.1.10"
   },
   "dependencies": {
     "@geostarters/eslint-config": "^0.0.3",
+    "dateformat": "^3.0.3",
+    "fomantic-ui": "^2.8.3",
+    "iso8601-js-period": "^0.2.1",
     "jquery": "^3.4.1",
-    "mapbox-gl": "^1.5.0",
-    "mapbox-gl-controls": "^1.5.5"
+    "leaflet": "^1.6.0",
+    "leaflet-hash": "^0.2.1",
+    "leaflet-timedimension": "^1.1.1",
+    "mapbox-gl": "^1.7.0",
+    "mapbox-gl-controls": "^1.6.0"
   }
 }

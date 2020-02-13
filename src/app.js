@@ -18,6 +18,6 @@ export default () => {
 
   createMap();
 
-  createSidebar(document.getElementById("root"));
+  //createSidebar(document.getElementById("root"));
 
 }

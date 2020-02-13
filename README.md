@@ -1,5 +1,5 @@
 
-# Fast and tiny JS and HTML webmap template
+# Visor WMS-T Sentinel
 
 
 ### Steps
@@ -19,8 +19,4 @@ npm install
 npm run dev
 ```
 
-
 http://localhost:1234
-
-
-
