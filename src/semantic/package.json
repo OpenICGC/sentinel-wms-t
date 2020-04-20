@@ -7,6 +7,9 @@
   "author": "Jack Lukic <jack@semantic-ui.com>",
   "license": "MIT",
   "main": "semantic.js",
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Semantic-Org/Semantic-UI-CSS.git"
@@ -18,6 +21,10 @@
     "jquery": "x.*"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3"
+    "babel-core": "^6.26.3",
+    "minimist": "^1.2.5"
+  },
+  "resolutions": {
+    "minimist": "^1.2.5"
   }
 }
