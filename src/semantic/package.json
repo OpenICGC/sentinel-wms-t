@@ -22,9 +22,13 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "diff": "^4.0.2",
+    "lodash.template": "^4.5.0",
     "minimist": "^1.2.5"
   },
   "resolutions": {
+    "diff": "^4.0.2",
+    "lodash.template": "^4.5.0",
     "minimist": "^1.2.5"
   }
 }
