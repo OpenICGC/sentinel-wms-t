@@ -19,7 +19,7 @@
     "minimist": "^1.2.6"
   },
   "dependencies": {
-    "@geostarters/eslint-config": "^0.0.3",
+    "@geostarters/eslint-config": "^0.0.6",
     "dateformat": "^3.0.3",
     "fomantic-ui": "^2.8.7",
     "iso8601-js-period": "^0.2.1",
